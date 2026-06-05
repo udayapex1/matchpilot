@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Heart, Users, LogOut, LayoutDashboard } from 'lucide-react';
 import { toast } from 'sonner';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <span className="hidden md:inline-block tracking-tight">The Date Crew</span>
         </Link>
         <div className="ml-auto flex items-center gap-4">
+          <ThemeToggle />
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"

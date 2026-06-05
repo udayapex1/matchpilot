@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from 'framer-motion';
+
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
@@ -120,7 +122,12 @@ export default function CustomerDetailPage() {
   const { customer, matches } = data;
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-10">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="space-y-6 max-w-7xl mx-auto pb-10"
+    >
       <div className="flex items-center gap-4">
         <Button variant="outline" size="icon" onClick={() => router.back()}>
           <ArrowLeft className="h-4 w-4" />
@@ -139,6 +146,7 @@ export default function CustomerDetailPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Left Column: 360 Profile */}
         <div className="md:col-span-2 space-y-6">
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
           <Card>
             <CardHeader>
               <CardTitle>Personal Biometrics & Education</CardTitle>
@@ -189,10 +197,16 @@ export default function CustomerDetailPage() {
               </div>
             </CardContent>
           </Card>
+          </motion.div>
         </div>
 
         {/* Right Column: Interaction Notes & Engine */}
-        <div className="space-y-6">
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          transition={{ delay: 0.2 }}
+          className="space-y-6"
+        >
           <Card className="flex flex-col h-[400px]">
             <CardHeader className="pb-3">
               <CardTitle>Interaction Notes</CardTitle>
@@ -241,8 +255,16 @@ export default function CustomerDetailPage() {
               <CardDescription>Top deterministic heuristic matches</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              {matches?.map((match: any) => (
-                <div key={match.id} className="flex flex-col p-3 rounded-lg bg-white dark:bg-zinc-900 border border-rose-100 dark:border-rose-900">
+              {matches?.map((match: any, index: number) => (
+                <motion.div 
+                  key={match.id} 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 + (index * 0.1) }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex flex-col p-3 rounded-lg bg-white dark:bg-zinc-900 border border-rose-100 dark:border-rose-900 shadow-sm"
+                >
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <h4 className="font-semibold text-sm">{match.firstName} {match.lastName}</h4>
@@ -256,15 +278,15 @@ export default function CustomerDetailPage() {
                     <Sparkles className="h-3 w-3 mr-2" />
                     Review Match Compatibility
                   </Button>
-                </div>
+                </motion.div>
               ))}
             </CardContent>
           </Card>
-        </div>
+        </motion.div>
       </div>
 
       <Dialog open={matchModalOpen} onOpenChange={setMatchModalOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-[80vw] w-[80vw]">
           <DialogHeader>
             <DialogTitle className="text-2xl flex items-center gap-2">
               <HeartHandshake className="h-6 w-6 text-rose-500" />
@@ -275,7 +297,7 @@ export default function CustomerDetailPage() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-6 py-4">
+          <div className="space-y-6 py-4 max-h-[60vh] overflow-y-auto pr-2">
             <div className="bg-zinc-50 dark:bg-zinc-900 rounded-lg p-4 space-y-4">
               <h3 className="font-semibold flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-purple-500" />
@@ -320,6 +342,6 @@ export default function CustomerDetailPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </motion.div>
   );
 }

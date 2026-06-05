@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(req: Request) {
@@ -15,9 +14,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
     }
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-
     const prompt = `As a high-end executive matchmaker, write a highly personalized, compelling email introduction pitching ${matchedCustomer.firstName} to ${customer.firstName}. 
     
 Details for ${customer.firstName}: Age ${customer.age}, ${customer.designation} at ${customer.company}, living in ${customer.city}.
@@ -25,8 +21,32 @@ Details for ${matchedCustomer.firstName}: Age ${matchedCustomer.age}, ${matchedC
 
 Include how their profiles align. Keep the tone professional, exclusive, and warm.`;
 
-    const result = await model.generateContent(prompt);
-    const intro = result.response.text();
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "model": "google/gemma-4-31b-it:free",
+        "messages": [
+          {
+            "role": "user",
+            "content": prompt
+          }
+        ],
+        "reasoning": {"enabled": true}
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("OpenRouter API error:", errorText);
+      throw new Error("Failed to generate from OpenRouter");
+    }
+
+    const result = await response.json();
+    const intro = result.choices?.[0]?.message?.content || "";
 
     return NextResponse.json({ intro });
   } catch (error) {

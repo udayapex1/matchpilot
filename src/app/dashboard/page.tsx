@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from 'framer-motion';
+
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -38,7 +40,12 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="space-y-6">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="space-y-6"
+    >
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Assigned Customers</h1>
         <div className="flex gap-2">
@@ -131,6 +138,6 @@ export default function Dashboard() {
           </Button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
