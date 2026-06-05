@@ -128,12 +128,12 @@ export default function CustomerDetailPage() {
       transition={{ duration: 0.4 }}
       className="space-y-6 max-w-7xl mx-auto pb-10"
     >
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <Button variant="outline" size="icon" onClick={() => router.back()}>
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">{customer.firstName} {customer.lastName}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{customer.firstName} {customer.lastName}</h1>
           <p className="text-muted-foreground">{customer.age} yrs • {customer.city}, {customer.country} • {customer.designation}</p>
         </div>
         <div className="ml-auto">
@@ -151,7 +151,7 @@ export default function CustomerDetailPage() {
             <CardHeader>
               <CardTitle>Personal Biometrics & Education</CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-y-4 text-sm">
+            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 text-sm">
               <div><span className="text-muted-foreground">Gender:</span> <span className="font-medium">{customer.gender}</span></div>
               <div><span className="text-muted-foreground">Height:</span> <span className="font-medium">{customer.height} cm</span></div>
               <div><span className="text-muted-foreground">Date of Birth:</span> <span className="font-medium">{new Date(customer.dob).toLocaleDateString()}</span></div>
@@ -167,7 +167,7 @@ export default function CustomerDetailPage() {
             <CardHeader>
               <CardTitle>Career & Lifestyle</CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-y-4 text-sm">
+            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 text-sm">
               <div><span className="text-muted-foreground">Company:</span> <span className="font-medium">{customer.company}</span></div>
               <div><span className="text-muted-foreground">Income:</span> <span className="font-medium">₹{(customer.income / 100000).toFixed(1)} LPA</span></div>
               <Separator className="col-span-2 my-2" />
@@ -182,7 +182,7 @@ export default function CustomerDetailPage() {
             <CardHeader>
               <CardTitle>Preferences & Family</CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-y-4 text-sm">
+            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 text-sm">
               <div><span className="text-muted-foreground">Marital Status:</span> <span className="font-medium">{customer.maritalStatus}</span></div>
               <div><span className="text-muted-foreground">Family Type:</span> <span className="font-medium">{customer.familyType}</span></div>
               <div><span className="text-muted-foreground">Siblings:</span> <span className="font-medium">{customer.siblings}</span></div>
@@ -286,7 +286,7 @@ export default function CustomerDetailPage() {
       </div>
 
       <Dialog open={matchModalOpen} onOpenChange={setMatchModalOpen}>
-        <DialogContent className="max-w-[80vw] w-[80vw]">
+        <DialogContent className="max-w-[95vw] sm:max-w-[80vw] w-[95vw] sm:w-[80vw]">
           <DialogHeader>
             <DialogTitle className="text-2xl flex items-center gap-2">
               <HeartHandshake className="h-6 w-6 text-rose-500" />

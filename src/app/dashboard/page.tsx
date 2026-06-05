@@ -48,15 +48,15 @@ export default function Dashboard() {
     >
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Assigned Customers</h1>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <Input 
             placeholder="Filter by city..." 
             value={cityFilter}
             onChange={(e) => setCityFilter(e.target.value)}
-            className="w-[200px]"
+            className="w-full sm:w-[200px]"
           />
           <Select value={maritalFilter} onValueChange={(val) => setMaritalFilter(val || '')}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Marital Status" />
             </SelectTrigger>
             <SelectContent>
@@ -70,8 +70,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <Card>
-        <CardContent className="p-0">
+      <Card className="overflow-hidden">
+        <CardContent className="p-0 overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -115,7 +115,7 @@ export default function Dashboard() {
         </CardContent>
       </Card>
 
-      <div className="flex justify-between items-center text-sm text-muted-foreground">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
         <div>
           Showing page {data?.page || 1} of {data?.totalPages || 1} ({data?.total || 0} total)
         </div>
