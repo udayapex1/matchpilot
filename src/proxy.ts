@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getSession } from './lib/auth'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
   
   if (path.startsWith('/dashboard') || path.startsWith('/api/ai') || path.startsWith('/api/matches')) {
