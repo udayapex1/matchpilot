@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Customer {
+  id                 String   @id @default(uuid())
+  firstName          String
+  lastName           String
+  gender             String
+  dob                DateTime
+  age                Int
+  city               String
+  country            String
+  email              String   @unique
+  phone              String
+  height             Float
+  college            String
+  degree             String
+  company            String
+  designation        String
+  income             Float
+  maritalStatus      String
+  siblings           Int
+  religion           String
+  caste              String
+  languages          String
+  wantKids           Boolean
+  openToRelocate     Boolean
+  openToPets         Boolean
+  diet               String
+  smoking            String
+  drinking           String
+  hobbies            String
+  familyType         String
+  personalityType    String
+  horoscope          String
+  manglik            String
+  partnerExpectations String
+  statusTag          String
+  createdAt          DateTime @default(now())
+  
+  notes              Note[]
+  
+  // To distinct Match model relationships
+  matchesAsCustomer        Match[] @relation("CustomerMatches")
+  matchesAsMatchedCustomer Match[] @relation("MatchedCustomerMatches")
+}
+
+model Note {
+  id         String   @id @default(uuid())
+  content    String
+  customerId String
+  createdAt  DateTime @default(now())
+  
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+}
+
+model Match {
+  id               String   @id @default(uuid())
+  customerId       String
+  matchedCustomerId String
+  score            Int
+  aiExplanation    String?
+  createdAt        DateTime @default(now())
+  
+  customer         Customer @relation("CustomerMatches", fields: [customerId], references: [id], onDelete: Cascade)
+  matchedCustomer  Customer @relation("MatchedCustomerMatches", fields: [matchedCustomerId], references: [id], onDelete: Cascade)
+
+  @@unique([customerId, matchedCustomerId])
+}

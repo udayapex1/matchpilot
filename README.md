@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# The Date Crew (TDC) Matchmaker Dashboard
 
-## Getting Started
+A comprehensive, internal CRM platform for The Date Crew (TDC) matchmakers to manage customer profiles, log interaction notes, and match users via a deterministic heuristic engine and AI compatibility summaries.
 
-First, run the development server:
+## Tech Stack
+- Next.js 15 (App Router)
+- React 19
+- Tailwind CSS
+- ShadCN UI
+- Prisma ORM (SQLite)
+- TanStack Query
+- Next.js Middleware Auth (Jose JWT)
+- Google Gemini AI Integration
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+1. **Matchmaker Authentication**: Secure session-based login (`matchmaker@tdc.com` / `password123`) protecting dashboard routes using edge-compatible JWTs via Jose.
+2. **Dashboard Overview**: Data table view of assigned customers with pagination and filtering.
+3. **Customer 360 View**: Clean categorization of Biometrics, Education, Career, Family, and Preferences.
+4. **Interaction Notes**: Securely add and delete historical interaction notes.
+5. **Matching Engine**: Deterministic heuristic calculation between Male and Female profiles assessing age, income, height, education, profession, family, lifestyle, relocation, and kids preferences.
+6. **Gemini AI Integration**: Automatically generates a highly personalized short compatibility explanation and a professional executive pitch introduction email.
+
+## Setup Instructions
+
+### 1. Prerequisites
+- Node.js (v18 or newer)
+- npm or yarn
+
+### 2. Environment Setup
+Rename `.env.example` to `.env` or just create `.env` in the root:
+```env
+DATABASE_URL="file:./dev.db"
+GEMINI_API_KEY="YOUR_GOOGLE_GEMINI_API_KEY"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Install Dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Database Setup & Seeding
+This will automatically push the schema and generate 200 realistic Indian mock profiles (100 Male, 100 Female):
+```bash
+npx prisma db push
+npx prisma generate
+npm run db:seed  # Or alternatively `npx ts-node --compiler-options "{\"module\":\"CommonJS\"}" prisma/seed.ts`
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 5. Run the Application
+```bash
+npm run dev
+```
 
-## Learn More
+Visit [http://localhost:3000](http://localhost:3000)
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Demo Credentials:**
+- Email: `matchmaker@tdc.com`
+- Password: `password123`
